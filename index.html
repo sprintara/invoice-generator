@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Генериране на фактура</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="container">
+    <h1>Invoice Form</h1>
+
+<form id="invoice-form">
+  <label>Client Name:</label>
+  <input type="text" id="client-name" required />
+
+  <div id="services-container">
+    <div class="service-item">
+      <label>Service:</label>
+      <select class="service">
+        <option value="Turf Laying">Turf Laying</option>
+        <option value="Garden Clearance">Garden Clearance</option>
+        <option value="Garden Maintenance">Garden Maintenance</option>
+        <option value="Pressure Washing">Pressure Washing</option>
+        <option value="Lawn Care">Lawn Care</option>
+        <option value="Shed Install & Repair">Shed Install & Repair</option>
+        <option value="Fence Repair & Install">Fence Repair & Install</option>
+        <option value="Planting & Flowerbeds">Planting & Flowerbeds</option>
+        <option value="Hedge Bush Shrub Trimming">Hedge Bush Shrub Trimming</option>
+        <option value="Prunning">Prunning</option>
+      </select>
+
+      <label>Quantity:</label>
+      <input type="number" class="quantity" required />
+
+      <label>Unit Price (£):</label>
+      <input type="number" class="unit-price" step="0.01" required />
+    </div>
+  </div>
+
+  <button type="button" onclick="addService()">+ Add Service</button>
+  <br><br>
+  <button type="button" onclick="generatePDF()">Generate PDF</button>
+</form>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="script.js"></script>
+  <img id="logo" src="logo.png" style="display: none;" />
+</body>
+</html>
