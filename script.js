@@ -1,7 +1,7 @@
-window.onload = function () {
+document.addEventListener("DOMContentLoaded", function () {
   const { jsPDF } = window.jspdf;
   window.jsPDF = jsPDF;
-};
+});
 
 // Генериране на уникален номер за фактурата
 function generateInvoiceNumber() {
@@ -55,7 +55,7 @@ function generatePDF() {
   doc.setFontSize(12);
   doc.text(`Client: ${clientName}`, 20, 50);
 
-  // Заглавия на таблицата
+  // Таблица с услуги
   let startY = 60;
   let total = 0;
   doc.text("Service", 20, startY);
@@ -94,6 +94,6 @@ function generatePDF() {
   doc.text("Phone: +44 7777 180433", 20, 290);
   doc.text("Address: 33 Parkhill Road, DA5 1HA, Bexley, London", 20, 295);
 
-  // Изтегляне
+  // Сваляне
   doc.save(`${invoiceNumber}.pdf`);
 }
