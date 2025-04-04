@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Генериране на фактура</title>
+  <link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#4CAF50" />
+
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -48,5 +51,20 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="script.js"></script>
   <img id="logo" src="logo.png" style="display: none;" />
+
+  <script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("service-worker.js")
+        .then(function () {
+          console.log("Service Worker registered!");
+        })
+        .catch(function (error) {
+          console.error("SW registration failed:", error);
+        });
+    });
+  }
+</script>
+
 </body>
 </html>
