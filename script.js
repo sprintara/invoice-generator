@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
   window.jsPDF = jsPDF;
 });
 
-// Генериране на уникален номер за фактурата
+// Уникален номер за фактура
 function generateInvoiceNumber() {
   const today = new Date();
   const datePart = today.toISOString().slice(0, 10).replace(/-/g, "");
@@ -26,13 +26,16 @@ function addService() {
 // Генериране на PDF
 function generatePDF() {
   const clientName = document.getElementById("client-name").value;
+  const clientAddress = document.getElementById("client-address").value;
+  const clientPhone = document.getElementById("client-phone").value;
+  const clientEmail = document.getElementById("client-email").value;
+
   const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
 
   const today = new Date();
   const formattedDate = today.toLocaleDateString('en-GB');
   const invoiceNumber = generateInvoiceNumber();
 
-  // Вземане на логото
   const logoImg = document.getElementById("logo");
   const canvas = document.createElement("canvas");
   canvas.width = logoImg.naturalWidth;
@@ -41,22 +44,35 @@ function generatePDF() {
   ctx.drawImage(logoImg, 0, 0);
   const imgData = canvas.toDataURL("image/png");
 
-  // Лого и заглавие
-  doc.addImage(imgData, "PNG", 20, 10, 40, 20);
+  // По-голямо лого
+  // Размери на логото с пропорция (мащабираме до височина 25 мм)
+const originalWidth = logoImg.naturalWidth;
+const originalHeight = logoImg.naturalHeight;
+const targetHeight = 25;
+const scale = targetHeight / originalHeight;
+const targetWidth = originalWidth * scale;
+
+doc.addImage(imgData, "PNG", 20, 10, targetWidth, targetHeight);
+
+
   doc.setFont("helvetica");
   doc.setFontSize(16);
-  doc.text("INVOICE", 70, 20);
+  doc.text("INVOICE", 80, 20);
   doc.setFontSize(12);
-  doc.text(`Invoice No: ${invoiceNumber}`, 70, 27);
+  doc.text(`Invoice No: ${invoiceNumber}`, 80, 27);
   doc.setFontSize(10);
   doc.text(`Date: ${formattedDate}`, 150, 20);
 
-  // Клиент
-  doc.setFontSize(12);
-  doc.text(`Client: ${clientName}`, 20, 50);
+  // Клиентски данни
+  doc.setFontSize(11);
+  let y = 50;
+  doc.text(`Client Name: ${clientName}`, 20, y);
+  doc.text(`Address: ${clientAddress}`, 20, y + 6);
+  doc.text(`Phone: ${clientPhone}`, 20, y + 12);
+  doc.text(`Email: ${clientEmail}`, 20, y + 18);
 
-  // Таблица с услуги
-  let startY = 60;
+  // Услуги
+  let startY = y + 30;
   let total = 0;
   doc.text("Service", 20, startY);
   doc.text("Qty", 90, startY);
@@ -80,12 +96,11 @@ function generatePDF() {
     doc.text(lineTotal.toFixed(2), 140, lineY);
   });
 
-  // Общо
   const totalY = startY + 10 + serviceItems.length * 10 + 5;
   doc.setFontSize(12);
   doc.text(`Total Amount: £${total.toFixed(2)}`, 20, totalY);
 
-  // Footer информация
+  // Footer
   doc.setFontSize(10);
   doc.line(20, 270, 190, 270);
   doc.text("Green Lads", 20, 275);
@@ -94,6 +109,5 @@ function generatePDF() {
   doc.text("Phone: +44 7777 180433", 20, 290);
   doc.text("Address: 33 Parkhill Road, DA5 1HA, Bexley, London", 20, 295);
 
-  // Сваляне
   doc.save(`${invoiceNumber}.pdf`);
 }
