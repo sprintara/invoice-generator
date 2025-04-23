@@ -1,6 +1,6 @@
 {
   "name": "GreenLads Invoice App",
-  "short_name": "InvoiceApp",
+  "short_name": "GreenLads App",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#ffffff",
