@@ -44,16 +44,13 @@ function generatePDF() {
   ctx.drawImage(logoImg, 0, 0);
   const imgData = canvas.toDataURL("image/png");
 
-  // По-голямо лого
-  // Размери на логото с пропорция (мащабираме до височина 25 мм)
-const originalWidth = logoImg.naturalWidth;
-const originalHeight = logoImg.naturalHeight;
-const targetHeight = 25;
-const scale = targetHeight / originalHeight;
-const targetWidth = originalWidth * scale;
+  const originalWidth = logoImg.naturalWidth;
+  const originalHeight = logoImg.naturalHeight;
+  const targetHeight = 25;
+  const scale = targetHeight / originalHeight;
+  const targetWidth = originalWidth * scale;
 
-doc.addImage(imgData, "PNG", 20, 10, targetWidth, targetHeight);
-
+  doc.addImage(imgData, "PNG", 20, 10, targetWidth, targetHeight);
 
   doc.setFont("helvetica");
   doc.setFontSize(16);
@@ -83,7 +80,10 @@ doc.addImage(imgData, "PNG", 20, 10, targetWidth, targetHeight);
   const serviceItems = document.querySelectorAll(".service-item");
 
   serviceItems.forEach((item, index) => {
-    const service = item.querySelector(".service").value;
+    const selectedService = item.querySelector(".service").value;
+    const customService = item.querySelector(".custom-service").value.trim();
+    const service = customService !== "" ? customService : selectedService;
+
     const qty = parseFloat(item.querySelector(".quantity").value) || 0;
     const unit = parseFloat(item.querySelector(".unit-price").value) || 0;
     const lineTotal = qty * unit;
